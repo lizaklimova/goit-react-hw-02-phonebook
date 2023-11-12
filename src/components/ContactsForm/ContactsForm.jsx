@@ -1,6 +1,13 @@
 import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
+import {
+  ContactsFormEl,
+  ContactsNameInput,
+  ContactsNumberInput,
+  Label,
+  SubmitBtn,
+} from './ContactsForm.styled';
 
 export default class ContactsForm extends Component {
   idName = nanoid();
@@ -37,27 +44,45 @@ export default class ContactsForm extends Component {
     const { name, number } = this.state;
 
     return (
-      <form autoComplete="off" onSubmit={this.onSubmit}>
-        <label htmlFor={this.idName}>Name</label>
-        <input
+      <ContactsFormEl autoComplete="off" onSubmit={this.onSubmit}>
+        <Label htmlFor={this.idName}>Name</Label>
+        <ContactsNameInput
           id={this.idName}
           type="text"
           name="name"
           onChange={this.onChange}
           value={name}
+          placeholder="Full name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
           required
         />
-        <label htmlFor={this.idTel}>Number</label>
-        <input
+        <Label htmlFor={this.idTel}>Number</Label>
+        <ContactsNumberInput
           id={this.idTel}
           type="tel"
           name="number"
           onChange={this.onChange}
           value={number}
+          placeholder="123-45-67"
+          pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
           required
         />
-        <button type="submit">Add contact</button>
-      </form>
+        <SubmitBtn type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+          >
+            <path fill="none" d="M0 0h24v24H0z"></path>
+            <path
+              fill="currentColor"
+              d="M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z"
+            ></path>
+          </svg>
+          Add contact
+        </SubmitBtn>
+      </ContactsFormEl>
     );
   }
 }

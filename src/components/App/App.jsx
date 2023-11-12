@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import ContactsForm from '../ContactsForm';
 import ContactsList from '../ContactsList';
 import FilterSearch from '../FilterSearch';
+import { Container, ContactsSection } from './App.styled';
 
 export default class App extends Component {
   state = {
@@ -25,6 +26,7 @@ export default class App extends Component {
 
   filterSearch = e => {
     const { value } = e.currentTarget;
+
     this.setState({ filter: value });
   };
 
@@ -37,28 +39,31 @@ export default class App extends Component {
       contacts: contacts.filter(contact => contact.id !== contactId),
     }));
   };
-  //! FORMIK--------------------------------------------
+
   render() {
     const { contacts, filter } = this.state;
     const normalizedFilter = filter.toLowerCase();
-    const filteredContacts = contacts.filter(({ name }) =>
-      name.toLowerCase().includes(normalizedFilter)
-    );
+    const filteredContacts = contacts.filter(({ name }) => {
+      return name.toLowerCase().includes(normalizedFilter);
+    });
 
     return (
-      <div>
+      <Container>
         <h1>Phonebook</h1>
         <ContactsForm
           addContact={this.addContact}
           checkContact={this.checkExistingContact}
         />
-        <h2>Contacts</h2>
-        <FilterSearch value={filter} onChange={this.filterSearch} />
-        <ContactsList
-          contacts={filteredContacts}
-          onClick={this.deleteContact}
-        />
-      </div>
+
+        <ContactsSection>
+          <h2>Contacts</h2>
+          <FilterSearch value={filter} onChange={this.filterSearch} />
+          <ContactsList
+            contacts={filteredContacts}
+            onClick={this.deleteContact}
+          />
+        </ContactsSection>
+      </Container>
     );
   }
 }
