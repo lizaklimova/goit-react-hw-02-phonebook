@@ -58,10 +58,14 @@ export default class App extends Component {
         <ContactsSection>
           <h2>Contacts</h2>
           <FilterSearch value={filter} onChange={this.filterSearch} />
-          <ContactsList
-            contacts={filteredContacts}
-            onClick={this.deleteContact}
-          />
+          {filteredContacts.length ? (
+            <ContactsList
+              contacts={filteredContacts}
+              onClick={this.deleteContact}
+            />
+          ) : (
+            <p>No contacts found</p>
+          )}
         </ContactsSection>
       </Container>
     );
